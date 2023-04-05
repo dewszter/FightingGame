@@ -8,12 +8,13 @@ pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode([800, 800])
 timer = 1
+shop = False
 
 
 
 
 player = Player(192)
-enemyImgFiles = ["mario.png", "pacmanGhost.png", "pacman.png"]
+enemyImgFiles = ["donkeykong.png", "mario.png", "pacmanGhost.png", "pacman.png"]
 enemies = []
 
 for i in range(10):
@@ -37,9 +38,24 @@ while running:
         pygame.draw.rect(screen, (0,0,0), (500,100,(enemies[currEnemy].maxHp + 8),50), 4)
         pygame.draw.rect(screen, (255,0,0), (504,104,enemies[currEnemy].hp,42))
     
+    # Fill the background with white, draw the healthbars and the sprites
+    def DrawFight():
+        
+        screen.fill((255,255,255))
+        DrawBlueHB()
+        DrawRedHB()
+        screen.blit(player.surf, (100,450))
+        screen.blit(enemies[currEnemy].surf, (600,400))
+        
+        if time - timer >=  0:
+            player.TakeDamage()
+            timer += 1
 
-
-
+    def DrawShop():
+        screen.fill((255,255,255))
+        DrawBlueHB()
+        screen.blit(player.surf, (100,450))
+        
 
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
@@ -56,21 +72,18 @@ while running:
     
     time = round((pygame.time.get_ticks())/1000)
     
-   
-    
-    # Fill the background with white, draw the healthbars and the sprites
-    screen.fill((255,255,255))
-    DrawBlueHB()
-    DrawRedHB()
-    screen.blit(player.surf, (100,450))
-    screen.blit(enemies[currEnemy].surf, (600,400))
+    if shop == False:
+        DrawFight()
+    else:
+        DrawShop()
 
     #The enemy attacks once every second
-    if time - timer >=  0:
-       player.TakeDamage()
-       timer += 1
+    
        
     if enemies[currEnemy].hp <= 0:
+        
+        #if currEnemy%4 == 0:
+            #shop
         currEnemy += 1
     
     pygame.display.flip()
