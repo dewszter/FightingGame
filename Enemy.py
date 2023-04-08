@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, hp, imgFile):
@@ -12,4 +12,4 @@ class Enemy(pygame.sprite.Sprite):
         
         
     def TakeDamage(self):
-        self.hp -= 10 #playerdamagemultiplier
+        self.hp -= 5 #playerdamagemultiplier

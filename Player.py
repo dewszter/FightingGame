@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255))
         self.rect = self.surf.get_rect()
         
+        
     def TakeDamage(self):
-        self.hp -= 6 #enemydamagemultiplier
+        self.hp -= 5 #enemydamagemultiplier
     
