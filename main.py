@@ -1,8 +1,10 @@
 import pygame
 from Player import Player
 from Enemy import Enemy
+from Shopkeeper import Shopkeeper
 from Weapons import *
 from Armors import *
+from random import randint
 
 #Basic pygame setup
 pygame.init()
@@ -12,45 +14,52 @@ timer = 1
 
 
 
-mode = "shop"
+mode = "fight"
 
 
 ironSword = IronSword(8, 9, 25)
 badArmor = BadArmor(21, 8, 25)
-ironArmor = IronArmor(25, 30, 125 )
+ironArmor = IronArmor(25, 30, 25 )
 
-player = Player(192)
+player = Player(192, 0, 0)
+shopKeeper = Shopkeeper()
 enemyImgFiles = ["donkeykong.png", "mario.png", "pacmanGhost.png", "pacman.png"]
 enemies = []
 
-for i in range(10):
+for i in range(20):
     enemyImgFiles.append("mario.png")
-    enemies.append(Enemy(192 + i*10, enemyImgFiles[i]))
+    enemies.append(Enemy(142 + i*10, enemyImgFiles[i]))
 
 currEnemy = 0
 
 running = True
 while running:
+    time = round((pygame.time.get_ticks())/1000)
+    
 
-    def DrawBlueHB():
+    def DrawPlayerHB():
         
         pygame.draw.rect(screen, (0,0,0), (100,100,(player.maxHp + 8),50), 4)
-        pygame.draw.rect(screen, (0,0,255), (104,104,player.hp,42))
+        pygame.draw.rect(screen, (0,0,255), (104,104,player.hp,42))  
         
         
-        
-    def DrawRedHB():
+    def DrawEnemyHB():
         
         pygame.draw.rect(screen, (0,0,0), (500,100,(enemies[currEnemy].maxHp + 8),50), 4)
         pygame.draw.rect(screen, (255,0,0), (504,104,enemies[currEnemy].hp,42))
+        
+    def DrawInventory():
+        for n in range(8):
+            pygame.draw.rect(screen, (0,0,0), (50 + n*50,650,48,50), 2)
     
     # Fill the background with white, draw the healthbars and the character sprites
     def DrawFight():
         global timer
         
         screen.fill((255,255,255))
-        DrawBlueHB()
-        DrawRedHB()
+        DrawInventory()
+        DrawPlayerHB()
+        DrawEnemyHB()
         screen.blit(player.surf, (100,450))
         screen.blit(enemies[currEnemy].surf, (600,400))
         
@@ -61,8 +70,10 @@ while running:
 
     def DrawShop():
         screen.fill((255,255,255))
-        DrawBlueHB()
+        DrawInventory()
+        DrawPlayerHB()
         screen.blit(player.surf, (100,450))
+        screen.blit(shopKeeper.surf, (575, 300))
         screen.blit(ironSword.surf, (550, 400))
         screen.blit(ironArmor.surf, (600, 425))
         screen.blit(badArmor.surf, (675, 425))
@@ -81,7 +92,6 @@ while running:
         if event.type == pygame.QUIT or player.hp <= 0:
             running = False
     
-    time = round((pygame.time.get_ticks())/1000)
     
     if mode == "fight":
         DrawFight()
@@ -89,11 +99,18 @@ while running:
         DrawShop()
     #elif mode == "dead":
         #DrawDeath()
+    #elif mode == "start":
+        #DrawStart()
+             
+        
 
     
        
     if enemies[currEnemy].hp <= 0:
+        player.AddGold(100 + currEnemy * randint(20, 50))
+        player.AddScore()
         currEnemy += 1
+        
         
         if currEnemy%4 == 0:
             mode = "shop"
