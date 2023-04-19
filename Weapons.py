@@ -1,5 +1,5 @@
 import pygame
-from ItemClasses import *
+from ItemClasses import Weapon
 
 
 class IronSword(Weapon, pygame.sprite.Sprite):

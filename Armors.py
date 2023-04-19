@@ -1,5 +1,5 @@
 import pygame
-from ItemClasses import *
+from ItemClasses import Armor
 
 class IronArmor(Armor, pygame.sprite.Sprite):
     def __init__(self, defense, weight, price):

@@ -16,10 +16,12 @@ timer = 1
 
 mode = "fight"
 
+items = []
+itemsInShop = []
 
-ironSword = IronSword(8, 9, 25)
-badArmor = BadArmor(21, 8, 25)
-ironArmor = IronArmor(25, 30, 25 )
+items.append(IronSword(8, 9, 25))
+items.append(BadArmor(21, 8, 25))
+items.append(IronArmor(25, 30, 25 ))
 
 player = Player(192, 0, 0)
 shopKeeper = Shopkeeper()
@@ -27,8 +29,8 @@ enemyImgFiles = ["donkeykong.png", "mario.png", "pacmanGhost.png", "pacman.png"]
 enemies = []
 
 for i in range(20):
-    enemyImgFiles.append("mario.png")
-    enemies.append(Enemy(142 + i*10, enemyImgFiles[i]))
+   enemyImgFiles.append("mario.png")
+   enemies.append(Enemy(142 + i*10, enemyImgFiles[i]))
 
 currEnemy = 0
 
@@ -74,9 +76,10 @@ while running:
         DrawPlayerHB()
         screen.blit(player.surf, (100,450))
         screen.blit(shopKeeper.surf, (575, 300))
-        screen.blit(ironSword.surf, (550, 400))
-        screen.blit(ironArmor.surf, (600, 425))
-        screen.blit(badArmor.surf, (675, 425))
+        
+        for i in range(len(itemsInShop)):
+            screen.blit(itemsInShop[i].surf, (550 + i*50, 400))
+        
         
 
     for event in pygame.event.get():
@@ -103,7 +106,7 @@ while running:
         #DrawStart()
              
         
-
+    #if player.hp <=0: mode = "dead"
     
        
     if enemies[currEnemy].hp <= 0:
@@ -113,6 +116,12 @@ while running:
         
         
         if currEnemy%4 == 0:
+            itemsInShop = []
+            
+            while len(itemsInShop) < 3:
+                itemRand = items[randint(0,(len(items)-1))]
+                if itemRand not in itemsInShop:#and not in inventory
+                    itemsInShop.append(itemRand)
             mode = "shop"
     
     pygame.display.flip()
