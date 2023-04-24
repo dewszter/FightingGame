@@ -4,7 +4,10 @@ from Enemy import Enemy
 from Shopkeeper import Shopkeeper
 from Weapons import *
 from Armors import *
+from Potions import *
 from random import randint
+import os
+
 
 #Basic pygame setup
 pygame.init()
@@ -19,9 +22,16 @@ mode = "fight"
 items = []
 itemsInShop = []
 
-items.append(IronSword(8, 9, 25))
-items.append(BadArmor(21, 8, 25))
-items.append(IronArmor(25, 30, 25 ))
+dirname = os.path.dirname(__file__)
+path = os.path.join(dirname, 'Images\\')
+
+items.append(IronSword(8, 9, 25, path + "ironSword.png"))
+
+items.append(LeatherArmor(21, 8, 25, path + "leatherArmor.png"))
+items.append(IronArmor(25, 30, 25, path + "ironArmor" ))
+
+items.append(WeakHealingPotion(5, 4, 30, path + "healingPotion.png"))
+items.append(StrenghtPotion(10, 4, 10, path + "strenghtPotion"))
 
 player = Player(192, 0, 0)
 shopKeeper = Shopkeeper()
@@ -32,7 +42,7 @@ for i in range(20):
    enemyImgFiles.append("mario.png")
    enemies.append(Enemy(142 + i*10, enemyImgFiles[i]))
 
-currEnemy = 0
+currEnemy = 4
 
 running = True
 while running:
@@ -75,10 +85,10 @@ while running:
         DrawInventory()
         DrawPlayerHB()
         screen.blit(player.surf, (100,450))
-        screen.blit(shopKeeper.surf, (575, 300))
+        screen.blit(shopKeeper.surf, (575, 400))
         
         for i in range(len(itemsInShop)):
-            screen.blit(itemsInShop[i].surf, (550 + i*50, 400))
+            screen.blit(itemsInShop[i].surf, (550 + i*50, 525))
         
         
 
@@ -95,6 +105,14 @@ while running:
         if event.type == pygame.QUIT or player.hp <= 0:
             running = False
     
+    if currEnemy%4 == 0 and mode != "shop":
+            itemsInShop = []
+            
+            while len(itemsInShop) < 3:
+                itemRand = items[randint(0,(len(items)-1))]
+                if itemRand not in itemsInShop:#and not in inventory
+                    itemsInShop.append(itemRand)
+            mode = "shop"
     
     if mode == "fight":
         DrawFight()
@@ -110,19 +128,10 @@ while running:
     
        
     if enemies[currEnemy].hp <= 0:
-        player.AddGold(100 + currEnemy * randint(20, 50))
+        player.AddGold(10 + currEnemy * randint(2, 5))
         player.AddScore()
         currEnemy += 1
         
-        
-        if currEnemy%4 == 0:
-            itemsInShop = []
-            
-            while len(itemsInShop) < 3:
-                itemRand = items[randint(0,(len(items)-1))]
-                if itemRand not in itemsInShop:#and not in inventory
-                    itemsInShop.append(itemRand)
-            mode = "shop"
     
     pygame.display.flip()
     clock.tick(60)

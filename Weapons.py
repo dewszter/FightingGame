@@ -3,11 +3,11 @@ from ItemClasses import Weapon
 
 
 class IronSword(Weapon, pygame.sprite.Sprite):
-    def __init__(self, damage, weight, price):
-        super().__init__(damage, weight, price)
+    def __init__(self, damage, weight, price, imgFile):
+        super().__init__(damage, weight, price, imgFile)
         super(IronSword, self)
-        self.surf = pygame.image.load("ironSword.png").convert()
+        self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((0, 0, 0))
-        self.rect = self.surf.get_rect()
+        self.rect = self.surf.get_rect().center
         
     
