@@ -9,6 +9,8 @@ class WeakHealingPotion(Potion, pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255))
         self.rect = self.surf.get_rect().center
         
+        
+        
 class StrenghtPotion(Potion, pygame.sprite.Sprite):
     def __init__(self, pStrenght, weight, price, imgFile):
         super().__init__(pStrenght, weight, price, imgFile)
