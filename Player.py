@@ -16,8 +16,8 @@ class Player(pygame.sprite.Sprite):
     def TakeDamage(self):
         self.hp -= 5 #enemydamagemultiplier
         
-    def AddGold(self, addedGold):
-        self.gold += addedGold
+    def ChangeGold(self, changedGold):
+        self.gold += changedGold
     
     def AddScore(self):
         self.score += 100

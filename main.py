@@ -23,7 +23,7 @@ mode = "fight"
 
 items = []
 itemsInShop = []
-#itemsInInventory = []
+itemsOwned= []
 
 dirname = os.path.dirname(__file__)
 path = os.path.join(dirname, 'Images\\')
@@ -38,7 +38,7 @@ items.append(StrenghtPotion(10, 4, 10, path + "strenghtPotion.png"))
 
 
 
-player = Player(200, 0, 0, path + "megaman.png")
+player = Player(200, 0, 50, path + "megaman.png")
 shopKeeper = Shopkeeper(path + "tem.png")
 enemyImgFiles = ["donkeykong.png", "mario.png", "pacmanGhost.png", "pacman.png"]
 enemies = []
@@ -75,10 +75,20 @@ while running:
         pygame.draw.rect(screen, (255,0,0), (504,104,(enemies[currEnemy].hp - 8),42))
         
     def DrawInventory():
-        for n in range(8):
-            pygame.draw.rect(screen, (0,0,0), (50 + n*50,650,48,50), 2)
+        for i in range(5):
+            pygame.draw.rect(screen, (0,0,0), (50 + i*75,650,73,75), 2)
+            if len(itemsOwned) > i:
+                screen.blit(itemsOwned[i].surf, (50 + i*75, 650))
         
-        #add items in inventory
+        
+        
+    def BuyItem(mouseX, mouseY):
+        for i in range(3):            
+            if mouseX > 500 + i*75 and mouseX < 500 + (i+1)*75 and mouseY > 525 and mouseY < 600 and player.gold >= itemsInShop[i].price:
+                itemsOwned.append(itemsInShop[i])
+                player.ChangeGold(-itemsInShop[i].price)
+                #itemsInShop[i] = emptysprite 
+                
     
     # Fill the background with white, draw the healthbars and the character sprites
     def DrawFight():
@@ -107,7 +117,7 @@ while running:
         screen.blit(player.surf, (100,450))
         screen.blit(shopKeeper.surf, (550, 400))
         
-        for i in range(len(itemsInShop)):
+        for i in range(3):
             screen.blit(itemsInShop[i].surf, (500 + i*75, 525))
             
             DrawText("Price: " + str(itemsInShop[i].price), (0,0,0),  (500 + i*75, 600), 12)
@@ -130,6 +140,11 @@ while running:
             if keysPressed[pygame.K_w]:
                 enemies[currEnemy].TakeDamage()
            
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouseX = pygame.mouse.get_pos()[0]
+            mouseY = pygame.mouse.get_pos()[1]
+            
+            BuyItem(mouseX, mouseY)
             
                        
         # Did the user click the window close button or die?
@@ -160,7 +175,7 @@ while running:
     
     #If an enemy dies, give the player gold and score, and swap to the next enemy.
     if enemies[currEnemy].hp <= 0:
-        player.AddGold(10 + currEnemy * randint(2, 5))
+        player.ChangeGold(10 + currEnemy * randint(2, 5))
         player.AddScore()
         currEnemy += 1
         
