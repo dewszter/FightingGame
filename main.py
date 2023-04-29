@@ -25,16 +25,17 @@ items = []
 itemsInShop = []
 itemsOwned= []
 
+
 dirname = os.path.dirname(__file__)
 path = os.path.join(dirname, 'Images\\')
 
-items.append(IronSword(8, 9, 25, path + "ironSword.png"))
+items.append(IronSword(8, 9, 25, path + "ironSword.png", False))
 
-items.append(LeatherArmor(21, 8, 25, path + "leatherArmor.png"))
-items.append(IronArmor(25, 30, 25, path + "ironArmor.png" ))
+items.append(LeatherArmor(21, 8, 25, path + "leatherArmor.png", False))
+items.append(IronArmor(25, 30, 25, path + "ironArmor.png", False))
 
-items.append(WeakHealingPotion(5, 4, 30, path + "healingPotion.png"))
-items.append(StrenghtPotion(10, 4, 10, path + "strenghtPotion.png"))
+items.append(WeakHealingPotion(5, 4, 30, path + "healingPotion.png", False))
+items.append(StrenghtPotion(10, 4, 10, path + "strenghtPotion.png", False))
 
 
 
@@ -84,10 +85,11 @@ while running:
         
     def BuyItem(mouseX, mouseY):
         for i in range(3):            
-            if mouseX > 500 + i*75 and mouseX < 500 + (i+1)*75 and mouseY > 525 and mouseY < 600 and player.gold >= itemsInShop[i].price:
+            if mouseX > 500 + i*75 and mouseX < 500 + (i+1)*75 and mouseY > 525 and mouseY < 600 and player.gold >= itemsInShop[i].price and itemsInShop[i].itemGone == False:
                 itemsOwned.append(itemsInShop[i])
                 player.ChangeGold(-itemsInShop[i].price)
-                #itemsInShop[i] = emptysprite 
+                itemsInShop[i].itemGone = True
+                
                 
     
     # Fill the background with white, draw the healthbars and the character sprites
@@ -118,7 +120,10 @@ while running:
         screen.blit(shopKeeper.surf, (550, 400))
         
         for i in range(3):
-            screen.blit(itemsInShop[i].surf, (500 + i*75, 525))
+            if itemsInShop[i].itemGone == False:
+                screen.blit(itemsInShop[i].surf, (500 + i*75, 525))
+            else:
+                pygame.draw.rect(screen, (255,255,255), (500 + i*75, 525, 75,75))
             
             DrawText("Price: " + str(itemsInShop[i].price), (0,0,0),  (500 + i*75, 600), 12)
             if isinstance(itemsInShop[i], Weapon) == True:

@@ -2,8 +2,8 @@ import pygame
 from ItemClasses import Armor
 
 class IronArmor(Armor, pygame.sprite.Sprite):
-    def __init__(self, defense, weight, price, imgFile):
-        super().__init__(defense, weight, price, imgFile)
+    def __init__(self, defense, weight, price, imgFile, itemGone):
+        super().__init__(defense, weight, price, imgFile, itemGone)
         super(IronArmor, self)
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((246, 246, 246))
@@ -11,8 +11,8 @@ class IronArmor(Armor, pygame.sprite.Sprite):
         
 
 class LeatherArmor(Armor, pygame.sprite.Sprite):
-    def __init__(self, defense, weight, price, imgFile):
-        super().__init__(defense, weight, price, imgFile)
+    def __init__(self, defense, weight, price, imgFile, itemGone):
+        super().__init__(defense, weight, price, imgFile, itemGone)
         super(LeatherArmor, self)
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((242, 242, 242))

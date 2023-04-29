@@ -2,8 +2,8 @@ import pygame
 from ItemClasses import Potion
 
 class WeakHealingPotion(Potion, pygame.sprite.Sprite):
-    def __init__(self, pStrenght, weight, price, imgFile):
-        super().__init__(pStrenght, weight, price, imgFile)
+    def __init__(self, pStrenght, weight, price, imgFile, itemGone):
+        super().__init__(pStrenght, weight, price, imgFile, itemGone)
         super(WeakHealingPotion, self)
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((255, 255, 255))
@@ -12,8 +12,8 @@ class WeakHealingPotion(Potion, pygame.sprite.Sprite):
         
         
 class StrenghtPotion(Potion, pygame.sprite.Sprite):
-    def __init__(self, pStrenght, weight, price, imgFile):
-        super().__init__(pStrenght, weight, price, imgFile)
+    def __init__(self, pStrenght, weight, price, imgFile, itemGone):
+        super().__init__(pStrenght, weight, price, imgFile, itemGone)
         super(StrenghtPotion, self)
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((248, 248, 248))
