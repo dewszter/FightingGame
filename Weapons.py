@@ -9,5 +9,6 @@ class IronSword(Weapon, pygame.sprite.Sprite):
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((0, 0, 0))
         self.rect = self.surf.get_rect().center
+    
         
     

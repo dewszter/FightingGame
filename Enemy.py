@@ -13,3 +13,9 @@ class Enemy(pygame.sprite.Sprite):
         
     def TakeDamage(self, extraDamage):
         self.hp -= (5 + extraDamage)
+    
+    def GetHp(self):
+        return self.hp
+    def GetMaxHp(self):
+        return self.maxHp
+    

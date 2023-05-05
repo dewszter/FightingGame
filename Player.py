@@ -22,3 +22,13 @@ class Player(pygame.sprite.Sprite):
     def AddScore(self):
         self.score += 100
     
+    def GetHp(self):
+        return self.hp
+    def GetMaxHp(self):
+        return self.maxHp
+    def GetScore(self):
+        return self.score
+    def GetGold(self):
+        return self.gold
+    
+    

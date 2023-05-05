@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 timer = 1
 
 weight = 0
-currEnemy = 4
+currEnemy = 0
 
 
 
@@ -32,8 +32,8 @@ path = os.path.join(dirname, 'Images\\')
 
 items.append(IronSword(8, 10, 25, path + "ironSword.png", False))
 
-items.append(LeatherArmor(20, 8, 25, path + "leatherArmor.png", False))
-items.append(IronArmor(28, 30, 35, path + "ironArmor.png", False))
+items.append(LeatherArmor(2, 8, 25, path + "leatherArmor.png", False))
+items.append(IronArmor(5, 30, 35, path + "ironArmor.png", False))
 
 items.append(WeakHealingPotion(2, 4, 30, path + "healingPotion.png", False))
 items.append(StrenghtPotion(4, 4, 10, path + "strenghtPotion.png", False))
@@ -65,13 +65,13 @@ while running:
     
     def DrawPlayerHB():
         
-        pygame.draw.rect(screen, (0,0,0), (100,100,player.maxHp,50), 4)
-        pygame.draw.rect(screen, (0,0,255), (104,104,(player.hp -8),42))  
+        pygame.draw.rect(screen, (0,0,0), (100,100,player.GetMaxHp(),50), 4)
+        pygame.draw.rect(screen, (0,0,255), (104,104,(player.GetHp() -8),42))  
                
     def DrawEnemyHB():
         
-        pygame.draw.rect(screen, (0,0,0), (500,100,enemies[currEnemy].maxHp,50), 4)
-        pygame.draw.rect(screen, (255,0,0), (504,104,(enemies[currEnemy].hp - 8),42))
+        pygame.draw.rect(screen, (0,0,0), (500,100,enemies[currEnemy].GetMaxHp(),50), 4)
+        pygame.draw.rect(screen, (255,0,0), (504,104,(enemies[currEnemy].GetHp() - 8),42))
         
     def DrawInventory():
         for i in range(5):
@@ -85,13 +85,13 @@ while running:
         global mode
             #This runs when the player clicks an item in the shop, if they have enough gold, and if they don't own the item
         for i in range(3):            
-            if mouseX > 500 + i*75 and mouseX < 500 + (i+1)*75 and mouseY > 525 and mouseY < 600 and player.gold >= itemsInShop[i].price and itemsInShop[i].itemGone == False and mode == "shop":
+            if mouseX > 500 + i*75 and mouseX < 500 + (i+1)*75 and mouseY > 525 and mouseY < 600 and player.GetGold() >= itemsInShop[i].GetPrice() and itemsInShop[i].GetItemGone() == False and mode == "shop":
                 itemsOwned.append(itemsInShop[i])
-                player.ChangeGold(-itemsInShop[i].price)
-                itemsInShop[i].itemGone = True
+                player.ChangeGold(-itemsInShop[i].GetPrice())
+                itemsInShop[i].SetItemGone(True)
                 
                 #Updates the weight once everytime a new item is bought
-                weight += itemsInShop[i].weight
+                weight += itemsInShop[i].GetWeight()
                     
         #If the user clicks the continue button, exit the shop and move on to the next enemy
         if mouseX > 525 and mouseX < 675 and mouseY > 725 and mouseY < 775:
@@ -107,8 +107,8 @@ while running:
         global timer
         
         screen.fill((255,255,255))
-        DrawText("SCORE: " + str(player.score), (0,0,0), (100,50), 32)
-        DrawText("GOLD: " + str(player.gold), (255,211,0), (100,200), 32)
+        DrawText("SCORE: " + str(player.GetScore()), (0,0,0), (100,50), 32)
+        DrawText("GOLD: " + str(player.GetGold()), (255,211,0), (100,200), 32)
         DrawText("WEIGHT: " + str(weight), (0,0,0), (50,750), 24)
         DrawInventory()
         DrawPlayerHB()
@@ -120,8 +120,8 @@ while running:
 
     def DrawShop():
         screen.fill((255,255,255))
-        DrawText("SCORE: " + str(player.score), (0,0,0), (100,50), 32)
-        DrawText("GOLD: " + str(player.gold), (255,211,0), (100,200), 32)
+        DrawText("SCORE: " + str(player.GetScore()), (0,0,0), (100,50), 32)
+        DrawText("GOLD: " + str(player.GetGold()), (255,211,0), (100,200), 32)
         DrawText("WEIGHT: " + str(weight) + "/50", (0,0,0), (50,750), 24)
         DrawText("CONTINUE", (0,0,0), (537.5, 737.5), 24)
         pygame.draw.rect(screen, (0,0,0), (525,725,150,50), 4)
@@ -131,7 +131,7 @@ while running:
         screen.blit(shopKeeper.surf, (550, 400))
         
         for i in range(3):
-            if itemsInShop[i].itemGone == False:
+            if itemsInShop[i].GetItemGone() == False:
                 screen.blit(itemsInShop[i].surf, (500 + i*75, 525))
             else:
                 pygame.draw.rect(screen, (255,255,255), (500 + i*75, 525, 75,75))
@@ -160,7 +160,6 @@ while running:
         for i in itemsOwned:
             if isinstance(i, Armor) == True:
                 reducedDamage += i.defense
-            reducedDamage = reducedDamage//5
         return reducedDamage
             
     #Check for events

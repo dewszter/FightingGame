@@ -5,4 +5,13 @@ class Item():
         self.imgFile = imgFile
         self.itemGone = itemGone
         
+    def GetWeight(self):
+        return self.weight
+    def GetPrice(self):
+        return self.price
+    def GetItemGone(self):
+        return self.itemGone
+    def SetItemGone(self, set):
+        self.itemGone = set
+        
     
