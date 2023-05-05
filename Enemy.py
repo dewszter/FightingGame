@@ -11,5 +11,5 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         
         
-    def TakeDamage(self):
-        self.hp -= 5 #playerdamagemultiplier
+    def TakeDamage(self, extraDamage):
+        self.hp -= (5 + extraDamage)

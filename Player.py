@@ -13,8 +13,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         
         
-    def TakeDamage(self):
-        self.hp -= 5 #enemydamagemultiplier
+    def TakeDamage(self, reducedDamage):
+        self.hp -= (10 - reducedDamage)
         
     def ChangeGold(self, changedGold):
         self.gold += changedGold
