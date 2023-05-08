@@ -8,13 +8,15 @@ class Player(pygame.sprite.Sprite):
         self.hp = hp
         self.score = score
         self.gold = gold
+        
+        #Sprite setup is similar for all sprites, select an image file, and choose a color that will become transparent
         self.surf = pygame.image.load(imgFile).convert()
         self.surf.set_colorkey((255, 255, 255))
         self.rect = self.surf.get_rect()
         
         
     def TakeDamage(self, reducedDamage):
-        self.hp -= (10 - reducedDamage)
+        self.hp -= (8 - reducedDamage)
         
     def ChangeGold(self, changedGold):
         self.gold += changedGold
