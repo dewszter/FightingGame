@@ -63,6 +63,7 @@ while running:
     
     #------------------------------------Functions------------------------------------------------------
     
+    #Draw text at the given position with the given color and fontsize
     def DrawText(content, color, pos, size):
         font = pygame.font.Font('freesansbold.ttf', size)
         text = font.render(content, True, color, (255,255,255))
@@ -71,22 +72,26 @@ while running:
         
         screen.blit(text,textRect)
     
+    #Draw the players healthbar, the first rect is the box and the second is the fill color which changes size based on hp
     def DrawPlayerHB():
         
         pygame.draw.rect(screen, (0,0,0), (100,100,player.GetMaxHp(),50), 4)
         pygame.draw.rect(screen, (0,0,255), (104,104,(player.GetHp() -8),42))  
-               
+    
+    #Draw the enemy healthbar, the first rect is the box and the second is the fill color which changes size based on hp          
     def DrawEnemyHB():
         
         pygame.draw.rect(screen, (0,0,0), (500,100,enemies[currEnemy].GetMaxHp(),50), 4)
         pygame.draw.rect(screen, (255,0,0), (504,104,(enemies[currEnemy].GetHp() - 8),42))
-        
+    
+    #Draw 5 empty boxes with the same size on a horizontal line     
     def DrawInventory():
         for i in range(5):
             pygame.draw.rect(screen, (0,0,0), (50 + i*75,650,73,75), 2)
             if len(itemsOwned) > i:
                 screen.blit(itemsOwned[i].surf, (50 + i*75, 650))
-            
+    
+    #This runs when the mousebutton is released, with the x and y position as parameters         
     def Click(mouseX, mouseY):
         global weight
         global currEnemy
@@ -241,7 +246,7 @@ while running:
         
     #if player.hp <=0: mode = "dead"
     
-    
+    #Draw the current mode
     if mode == "fight":
         DrawFight()
     elif mode == "shop":
@@ -254,8 +259,8 @@ while running:
         
     
     
+    # Uppdate frame with 60 frames per second.
     pygame.display.flip()
     clock.tick(60)
-    # Uppdate frame with 60 frames per second.
 
 pygame.quit()
