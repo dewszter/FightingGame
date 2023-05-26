@@ -1,7 +1,7 @@
 import pygame
 from ItemClasses import Weapon
 
-
+#Class for the Iron sword sprite, which is a subclass to weapon
 class IronSword(Weapon, pygame.sprite.Sprite):
     def __init__(self, damage, weight, price, imgFile, itemGone):
         super().__init__(damage, weight, price, imgFile, itemGone)

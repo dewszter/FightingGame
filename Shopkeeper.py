@@ -1,6 +1,6 @@
 import pygame 
 
-
+#Class for the shopkeeper sprite, with the attribute image file name.
 class Shopkeeper(pygame.sprite.Sprite):
     def __init__(self, imgFile) -> None:
         super(Shopkeeper, self).__init__()

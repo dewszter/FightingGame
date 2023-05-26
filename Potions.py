@@ -1,6 +1,6 @@
 import pygame
 from ItemClasses import Potion
-
+#Class for the Weak healing potion sprite, which is a subclass to potion
 class WeakHealingPotion(Potion, pygame.sprite.Sprite):
     def __init__(self, pStrenght, weight, price, imgFile, itemGone):
         super().__init__(pStrenght, weight, price, imgFile, itemGone)
@@ -10,7 +10,7 @@ class WeakHealingPotion(Potion, pygame.sprite.Sprite):
         self.rect = self.surf.get_rect().center
         
         
-        
+#Class for the Strenght potion sprite, which is a subclass to potion
 class StrenghtPotion(Potion, pygame.sprite.Sprite):
     def __init__(self, pStrenght, weight, price, imgFile, itemGone):
         super().__init__(pStrenght, weight, price, imgFile, itemGone)
